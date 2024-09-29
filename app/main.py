@@ -1,7 +1,7 @@
 import socket
 
 def create_message(id: int, api_key: int, api_version: int):
-    supported_api_keys = 1
+    supported_api_keys = 2
     min_version = 0
     max_version = 4
     throttle_time = 0

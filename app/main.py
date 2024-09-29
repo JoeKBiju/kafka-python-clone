@@ -8,9 +8,13 @@ def create_message(id, api_version):
     throttle_time = 0
     tagged_fields = b"\x00"
 
+    #Header
     response_bytes = id.to_bytes(4, 'big')
+
+    #Body
     if (api_version == 35):
         response_bytes += api_version.to_bytes(2, 'big')
+    response_bytes += supported_api_keys.to_bytes(1, 'big')
     response_bytes += api_key.to_bytes(2, 'big')
     response_bytes += min_version.to_bytes(2, 'big')
     response_bytes += max_version.to_bytes(2, 'big')

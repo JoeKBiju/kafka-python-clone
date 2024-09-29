@@ -1,8 +1,7 @@
 import socket
 
-def create_message(id, api_version):
+def create_message(id: int, api_key: int, api_version: int):
     supported_api_keys = 2
-    api_key = 18
     min_version = 0
     max_version = 4
     throttle_time = 0
@@ -15,7 +14,7 @@ def create_message(id, api_version):
     if (api_version == 35):
         response_bytes += api_version.to_bytes(2, 'big')
     response_bytes += supported_api_keys.to_bytes(1, 'big')
-    response_bytes += api_key.to_bytes(2, 'big')
+    response_bytes += api_key.to_bytes
     response_bytes += min_version.to_bytes(2, 'big')
     response_bytes += max_version.to_bytes(2, 'big')
     response_bytes += tagged_fields
@@ -28,6 +27,10 @@ def create_message(id, api_version):
 def get_request_length(request):
     length = int.from_bytes(request[0:4], 'big')
     return length
+
+def get_api_key(request):
+    api_key = int.from_bytes(request[4:6], 'big')
+    return api_key
 
 def get_api_version(request):
     api_version = int.from_bytes(request[6:8], 'big')
@@ -44,8 +47,9 @@ def parse_correlation(request):
 def handle_client(client_socket):
     request = client_socket.recv(1024)
     correlation_id = parse_correlation(request)
+    api_key = get_api_key(request)
     api_version = get_api_version(request)
-    client_socket.sendall(create_message(correlation_id, api_version))
+    client_socket.sendall(create_message(correlation_id, api_key, api_version))
     client_socket.close()
 
 def main():

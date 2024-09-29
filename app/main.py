@@ -8,6 +8,7 @@ def main():
 
     server = socket.create_server(("localhost", 9092), reuse_port=True)
     server.accept()
+    server.send(hex(7))
 
 if __name__ == "__main__":
     main()

@@ -54,7 +54,8 @@ def handle_client(client_socket):
 def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
     client_socket, client_addr = server.accept()
-    handle_client(client_socket)
+    while True:
+        handle_client(client_socket)
 
 if __name__ == "__main__":
     main()

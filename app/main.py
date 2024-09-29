@@ -16,7 +16,6 @@ def create_message(id, api_version):
     response_bytes += max_version.to_bytes(2, 'big')
     response_bytes += tagged_fields
     response_bytes += throttle_time.to_bytes(4, 'big')
-    response_bytes += tagged_fields
     
     response_message = len(response_bytes).to_bytes(4, 'big') + response_bytes
     return response_message

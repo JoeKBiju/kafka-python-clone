@@ -1,7 +1,7 @@
 import socket  # noqa: F401
 
 def create_message():
-    return "\U00000008\U00000007"
+    return hex(8) + hex(7)
 
 def handle_client(client_socket):
     request = client_socket.recv(1024)

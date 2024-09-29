@@ -1,11 +1,13 @@
 import socket  # noqa: F401
 
 def create_message():
-    return hex(8) + hex(7)
+    id = 7
+    id_bytes = id.to_bytes(4, 'big')
+    return len(id_bytes).to_bytes(4, 'big') + id_bytes
 
 def handle_client(client_socket):
     request = client_socket.recv(1024)
-    client_socket.send(create_message())
+    client_socket.sendall(create_message())
     client_socket.close()
 
 def main():

@@ -6,9 +6,11 @@ def create_message(id):
     return return_message
 
 def get_request_length(request):
-    length_bytes = request[0:4]
-    length = int.from_bytes(length_bytes, 'big')
+    length = int.from_bytes(request[0:4], 'big')
     return length
+
+def get_api_version(request):
+
 
 def parse_correlation(request):
     correlation_id = int.from_bytes(request[8:12], 'big')

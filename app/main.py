@@ -11,7 +11,7 @@ def get_request_length(request):
     return length
 
 def parse_correlation(request):
-    correlation_id = int.to_bytes(request[8:12], 'big')
+    correlation_id = int.from_bytes(request[8:12], 'big')
     return correlation_id
 
 def handle_client(client_socket):

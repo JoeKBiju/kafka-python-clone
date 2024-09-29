@@ -49,7 +49,7 @@ def handle_client(client_socket):
     api_key = get_api_key(request)
     api_version = get_api_version(request)
     client_socket.sendall(create_message(correlation_id, api_key, api_version))
-    client_socket.close()
+    #client_socket.close()
 
 def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)

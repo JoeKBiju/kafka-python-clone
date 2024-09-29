@@ -11,8 +11,7 @@ def create_message(id: int, api_key: int, api_version: int):
     response_bytes = id.to_bytes(4, 'big')
 
     #Body
-    if (api_version == 35):
-        response_bytes += api_version.to_bytes(2, 'big')
+    response_bytes += api_version.to_bytes(2, 'big')
     response_bytes += supported_api_keys.to_bytes(2, 'big')
     response_bytes += api_key.to_bytes(2, 'big')
     response_bytes += min_version.to_bytes(2, 'big')
@@ -37,7 +36,7 @@ def get_api_version(request):
     if(api_version < 0 or api_version > 4):
         return 35   # Error Code
     
-    return api_version
+    return 0        # No Error
 
 def parse_correlation(request):
     correlation_id = int.from_bytes(request[8:12], 'big')

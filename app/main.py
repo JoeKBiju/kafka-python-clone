@@ -5,7 +5,7 @@ def create_message(id: int, api_key: int, api_version: int):
     min_version = 0
     max_version = 4
     throttle_time = 0
-    tagged_fields = b"\x00"
+    tagged_fields = 0
 
     #Header
     response_bytes = id.to_bytes(4, 'big')
@@ -16,8 +16,9 @@ def create_message(id: int, api_key: int, api_version: int):
     response_bytes += api_key.to_bytes(2, 'big')
     response_bytes += min_version.to_bytes(2, 'big')
     response_bytes += max_version.to_bytes(2, 'big')
-    response_bytes += tagged_fields
+    response_bytes += tagged_fields.to_bytes(1, 'big')
     response_bytes += throttle_time.to_bytes(4, 'big')
+    response_bytes += tagged_fields.to_bytes(1, 'big')
     
     response_message = len(response_bytes).to_bytes(4, 'big') + response_bytes
     return response_message

@@ -5,7 +5,7 @@ def create_message():
 
 def handle_client(client_socket):
     request = client_socket.recv(1024)
-    client_socket.send(create_message())
+    client_socket.sendall(create_message())
     client_socket.close()
 
 def main():

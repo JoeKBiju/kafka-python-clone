@@ -12,7 +12,7 @@ def create_message(id: int, api_key: int, api_version: int):
 
     #Body
     response_bytes += api_version.to_bytes(2, 'big')
-    response_bytes += supported_api_keys.to_bytes(2, 'big')
+    response_bytes += supported_api_keys.to_bytes(1, 'big')
     response_bytes += api_key.to_bytes(2, 'big')
     response_bytes += min_version.to_bytes(2, 'big')
     response_bytes += max_version.to_bytes(2, 'big')

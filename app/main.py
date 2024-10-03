@@ -32,7 +32,7 @@ class Message:
 
 def create_message(id: int, api_key: int, api_version: int):
     message = Message(id, api_key, api_version)
-    return message.createMessage
+    return message.create_message()
 
 def get_request_length(request):
     length = int.from_bytes(request[0:4], 'big')

@@ -31,7 +31,7 @@ class Message:
         return response_message
 
 def create_message(id: int, api_key: int, api_version: int):
-    message = Message(api_key, api_version)
+    message = Message(id, api_key, api_version)
     return message.createMessage
 
 def get_request_length(request):
@@ -66,8 +66,8 @@ def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
     while True:
         client_socket, client_addr = server.accept()
-        t = threading.Thread(target=handle_client, )
-        handle_client(client_socket)
+        t = threading.Thread(target=handle_client, args=(client_socket))
+        t.start()
 
 if __name__ == "__main__":
     main()

@@ -1,27 +1,38 @@
 import socket
+import threading
+
+
+class Message:
+    def __init__(self, id: int, api_key: int, api_version: int):
+        self.supported_api_keys= 2
+        self.min_version= 0
+        self.max_version= 4
+        self.throttle_time = 0
+        self.tagged_fields = 0
+        self.id = id
+        self.api_key = api_key
+        self.api_version = api_version
+    
+    def create_message(self):
+        #Header
+        response_bytes = self.id.to_bytes(4, 'big')
+
+        #Body
+        response_bytes += self.api_version.to_bytes(2, 'big')
+        response_bytes += self.supported_api_keys.to_bytes(1, 'big')
+        response_bytes += self.api_key.to_bytes(2, 'big')
+        response_bytes += self.min_version.to_bytes(2, 'big')
+        response_bytes += self.max_version.to_bytes(2, 'big')
+        response_bytes += self.tagged_fields.to_bytes(1, 'big')
+        response_bytes += self.throttle_time.to_bytes(4, 'big')
+        response_bytes += self.tagged_fields.to_bytes(1, 'big')
+    
+        response_message = len(self.response_bytes).to_bytes(4, 'big') + self.response_bytes
+        return response_message
 
 def create_message(id: int, api_key: int, api_version: int):
-    supported_api_keys = 2
-    min_version = 0
-    max_version = 4
-    throttle_time = 0
-    tagged_fields = 0
-
-    #Header
-    response_bytes = id.to_bytes(4, 'big')
-
-    #Body
-    response_bytes += api_version.to_bytes(2, 'big')
-    response_bytes += supported_api_keys.to_bytes(1, 'big')
-    response_bytes += api_key.to_bytes(2, 'big')
-    response_bytes += min_version.to_bytes(2, 'big')
-    response_bytes += max_version.to_bytes(2, 'big')
-    response_bytes += tagged_fields.to_bytes(1, 'big')
-    response_bytes += throttle_time.to_bytes(4, 'big')
-    response_bytes += tagged_fields.to_bytes(1, 'big')
-    
-    response_message = len(response_bytes).to_bytes(4, 'big') + response_bytes
-    return response_message
+    message = Message(api_key, api_version)
+    return message.createMessage
 
 def get_request_length(request):
     length = int.from_bytes(request[0:4], 'big')
@@ -53,8 +64,9 @@ def handle_client(client_socket):
 
 def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
-    client_socket, client_addr = server.accept()
     while True:
+        client_socket, client_addr = server.accept()
+        t = threading.Thread(target=handle_client, )
         handle_client(client_socket)
 
 if __name__ == "__main__":

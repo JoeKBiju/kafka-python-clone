@@ -27,7 +27,7 @@ class Message:
         response_bytes += self.throttle_time.to_bytes(4, 'big')
         response_bytes += self.tagged_fields.to_bytes(1, 'big')
     
-        response_message = len(self.response_bytes).to_bytes(4, 'big') + self.response_bytes
+        response_message = len(response_bytes).to_bytes(4, 'big') + response_bytes
         return response_message
 
 def create_message(id: int, api_key: int, api_version: int):

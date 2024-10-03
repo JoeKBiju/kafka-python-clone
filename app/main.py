@@ -55,12 +55,13 @@ def parse_correlation(request):
     return correlation_id
 
 def handle_client(client_socket):
-    request = client_socket.recv(1024)
-    correlation_id = parse_correlation(request)
-    api_key = get_api_key(request)
-    api_version = get_api_version(request)
-    client_socket.sendall(create_message(correlation_id, api_key, api_version))
-    #client_socket.close()
+    while True:
+        request = client_socket.recv(1024)
+        correlation_id = parse_correlation(request)
+        api_key = get_api_key(request)
+        api_version = get_api_version(request)
+        client_socket.sendall(create_message(correlation_id, api_key, api_version))
+        #client_socket.close()
 
 def main():
     server = socket.create_server(("localhost", 9092), reuse_port=True)
